@@ -4,10 +4,11 @@ Doodle::Engine.routes.draw do
   resources :keywords, only: [:index, :create]
 
   post 'authenticate', to: 'auth#authenticate'
+  get '/chat/:channel/has_protocols', to: 'chat#has_protocols?'
+
 #
 #  get '/chat', to: 'chat#index'
 #  get '/chat/support', to: 'chat#support'
-#  get '/chat/:channel/has_protocols', to: 'chat#has_protocols?'
 #  post '/chat/:channel/next', to: 'chat#next'
 #  post '/chat/finalize', to: 'chat#finalize'
 #
