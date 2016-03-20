@@ -6,6 +6,8 @@ Doodle::Engine.routes.draw do
   post 'authenticate', to: 'auth#authenticate'
   get '/chat/:channel/has_protocols', to: 'chat#has_protocols?'
 
+  post '/conversations', to: 'conversations#create'
+
 #
 #  get '/chat', to: 'chat#index'
 #  get '/chat/support', to: 'chat#support'
