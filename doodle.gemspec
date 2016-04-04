@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = Doodle::VERSION
   s.authors     = ["Gabriel Malaquias"]
   s.email       = ["gmalakias@bitbucket.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Doodle."
-  s.description = "TODO: Description of Doodle."
+  s.homepage    = "https://github.com/GabrielMalakias/doodle_rails"
+  s.summary     = "A Rails Engine for vists based in Layer Plataform"
+  s.description = "A Rails Engine for vists based in Layer Plataform"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
