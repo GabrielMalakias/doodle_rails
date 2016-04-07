@@ -5,6 +5,9 @@ module Doodle
     belongs_to :user
     belongs_to :channel
 
+    accepts_nested_attributes_for :user
+    accepts_nested_attributes_for :channel
+
     aasm column: :status do
       state :offline, initial: true
       state :online

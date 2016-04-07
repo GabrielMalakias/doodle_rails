@@ -14,5 +14,9 @@ module Doodle
     def user_channel_by_name(name)
       self.user_channels.joins(:channel).where('doodle_channels.name' => name).first
     end
+
+    def break_limit_concurrent_protocols?
+      self.protocols.where.not(status: 'finalized').count > self.concurrent_protocols
+    end
   end
 end
