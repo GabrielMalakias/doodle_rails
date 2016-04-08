@@ -11,15 +11,8 @@ Doodle::Engine.routes.draw do
 
   post '/chat/finalize', to: 'chat#finalize'
 
-#
-#  get '/chat', to: 'chat#index'
-#  get '/chat/support', to: 'chat#support'
-#  post '/chat/finalize', to: 'chat#finalize'
-#
-#  post '/users/:channel/join', to: 'users#join'
-#
-#  post '/conversations/messages', to: 'conversations#messages'
-#  post '/messages', to: 'messages#create'
+  post '/conversations/messages', to: 'conversations#messages'
+# post '/messages', to: 'messages#create'
 
 
 end

@@ -18,7 +18,6 @@ module Doodle
 
     end
 
-
     def create
       user = User.new(users_params)
       if user.save

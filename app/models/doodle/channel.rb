@@ -5,7 +5,7 @@ module Doodle
 
     has_many :protocols
 
-    accepts_nested_attributes_for :users
+    accepts_nested_attributes_for :user_channels, allow_destroy: true
 
     def self.find_protocols_by_channel(name)
       Channel.find_by_name(name).protocols

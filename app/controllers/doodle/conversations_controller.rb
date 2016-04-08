@@ -14,6 +14,15 @@ module Doodle
       end
     end
 
+    def messages
+      @conversation = finder_service.call
+      render json: @conversation.messages.to_json, status: 200
+    end
+
+    def finder_service
+      @finder_service ||= Layer::Conversation::FinderService.new(params.require(:conversation_id))
+    end
+
     def channel_finder_service
       @channel_finder_service ||= Channel::FinderService.new({name: params.require(:channel)})
     end

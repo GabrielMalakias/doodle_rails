@@ -9,13 +9,23 @@ module Doodle
     end
 
     def next
-      protocol = protocol_finder_service.next
-      join_service = chat_join_service(protocol)
-      if join_service.break_limit? && protocol.blank?
-        render json: { error: 'Analyst already have limit of protocols in progress' }, status: 422
+      user = User::Analyst.find_by_login(params.require(:login))
+      if user.blank?
+        render json: { error: 'Dont found this analyst' }
       else
-        join_service.join(params.require(:channel))
-        render json: { conversation: protocol.conversation_id }, status: 200
+        protocol = protocol_finder_service.next(params.require(:channel))
+
+        if protocol.blank? || user.blank?
+          render json: { error: 'Dont find protocols for this channel' }
+        else
+          join_service = chat_join_service(protocol, user)
+          if join_service.break_limit? && protocol.blank?
+            render json: { error: 'Analyst already have limit of protocols in progress' }, status: 422
+          else
+            join_service.join(params.require(:channel))
+            render json: { conversation: protocol.conversation_id }, status: 200
+          end
+        end
       end
     end
 

@@ -1,7 +1,7 @@
 module Doodle
   class Protocol::FinderService
-    def next
-      Protocol.next
+    def next(channel)
+      Protocol.next(channel)
     end
 
     def find_by_conversation(id)

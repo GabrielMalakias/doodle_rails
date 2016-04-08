@@ -55,8 +55,9 @@ module Doodle
       conversation.save
     end
 
-    def self.next(channel = 'corporativo')
+    def self.next(channel)
       protocol = self.waiting_in_channel(channel).first
+      return nil if protocol.blank?
       protocol.progress!
       protocol
     end
