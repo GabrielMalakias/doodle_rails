@@ -40,7 +40,8 @@ module Doodle
     end
 
     def duration
-      (self.finalized_at - self.created_at).round
+      return nil if self.finalized_at.blank?
+      "#{(self.finalized_at - self.created_at).round / 60} min"
     end
 
     def log_status_change

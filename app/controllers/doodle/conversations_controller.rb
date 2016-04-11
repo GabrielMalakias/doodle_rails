@@ -14,13 +14,17 @@ module Doodle
       end
     end
 
-    def messages
+  def messages
+    if params.permit(:conversation_id).present?
       @conversation = finder_service.call
       render json: @conversation.messages.to_json, status: 200
+    else
+      render json: { error: 'conversation_id can\'t be blank'}, status: 404
     end
+  end
 
     def finder_service
-      @finder_service ||= Layer::Conversation::FinderService.new(params.require(:conversation_id))
+      @finder_service ||= Layer::Conversation::FinderService.new("layer:///conversations/#{params.require(:conversation_id)}")
     end
 
     def channel_finder_service

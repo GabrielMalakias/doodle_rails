@@ -12,7 +12,9 @@ Doodle::Engine.routes.draw do
   post '/chat/finalize', to: 'chat#finalize'
 
   post '/conversations/messages', to: 'conversations#messages'
-# post '/messages', to: 'messages#create'
+  post '/messages', to: 'messages#create'
+
+  get '/channels', to: 'channels#index'
 
 
 end
