@@ -4,9 +4,16 @@ module Doodle
     belongs_to :channel
     belongs_to :user
 
+    STATUSES  = {
+      waiting:     'waiting',
+      in_progress: 'in_progress',
+      finalized:   'finalized'
+    }
+
     scope :by_user, ->(user_ids){ where(user_id: user_ids) }
     scope :by_status, ->(status){ where(status: status) }
-    scope :number_by_user, ->(user_ids) { by_status('in_progress').by_user(user_ids).group(:user_id).count }
+    scope :number_by_user, ->(user_ids) { by_status(STATUSES[:in_progress]).by_user(user_ids).group(:user_id).count }
+    scope :in_channel_with_status, -> (channel, status){ by_status(status).joins(:channel).where("#{Doodle::Channel.table_name}.name" => channel) }
 
     aasm column: :status do
       state :waiting, initial: true
@@ -31,8 +38,6 @@ module Doodle
         transitions from: :in_progress, to: :finalized
       end
     end
-
-    scope :waiting_in_channel, -> (channel){ joins(:channel).where(status: :waiting, 'doodle_channels.name' => channel) }
 
     def duration
       (self.finalized_at - self.created_at).round
@@ -60,7 +65,7 @@ module Doodle
     end
 
     def self.next(channel)
-      protocol = self.waiting_in_channel(channel).first
+      protocol = self.in_channel_with_status(channel, Protocol::STATUSES[:waiting])
       return nil if protocol.blank?
       protocol.progress!
       protocol
