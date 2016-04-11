@@ -20,6 +20,7 @@ module Doodle
 
     def create
       user = User.new(users_params)
+      binding.pry
       if user.save
         render json: user.reload.to_json
       else
@@ -28,7 +29,7 @@ module Doodle
     end
 
     def users_params
-      params.require(:user).permit(:login, :pass, :type)
+      params.require(:user).permit(:login, :password, :type)
     end
   end
 end

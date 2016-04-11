@@ -65,7 +65,7 @@ module Doodle
     end
 
     def self.next(channel)
-      protocol = self.in_channel_with_status(channel, Protocol::STATUSES[:waiting])
+      protocol = self.in_channel_with_status(channel, Protocol::STATUSES[:waiting]).first
       return nil if protocol.blank?
       protocol.progress!
       protocol

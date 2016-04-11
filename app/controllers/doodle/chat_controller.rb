@@ -4,7 +4,7 @@ module Doodle
   class ChatController < ApplicationController
 
     def has_protocols?
-      protocols = Protocol.in_channel_with_status(params.require(:channel), Protocol::STATUSES[:waiting]))
+      protocols = Protocol.in_channel_with_status(params.require(:channel), Protocol::STATUSES[:waiting])
       render json: { has_protocols: protocols.size }, status: 200
     end
 
