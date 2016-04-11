@@ -4,6 +4,10 @@ module Doodle
     belongs_to :channel
     belongs_to :user
 
+    scope :by_user, ->(user_ids){ where(user_id: user_ids) }
+    scope :by_status, ->(status){ where(status: status) }
+    scope :number_by_user, ->(user_ids) { by_status('in_progress').by_user(user_ids).group(:user_id).count }
+
     aasm column: :status do
       state :waiting, initial: true
       state :in_progress

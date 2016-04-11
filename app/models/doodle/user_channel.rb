@@ -8,6 +8,9 @@ module Doodle
     accepts_nested_attributes_for :user
     accepts_nested_attributes_for :channel
 
+    scope :by_status, ->(status) { where(status: status) }
+    scope :user_by_status, ->(status) { by_status(status).group(:user_id).pluck(:user_id).compact }
+
     aasm column: :status do
       state :offline, initial: true
       state :online
