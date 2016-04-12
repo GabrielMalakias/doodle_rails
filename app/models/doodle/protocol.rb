@@ -10,8 +10,9 @@ module Doodle
       finalized:   'finalized'
     }
 
-    scope :by_user, ->(user_ids){ where(user_id: user_ids) }
-    scope :by_status, ->(status){ where(status: status) }
+    scope :by_user, ->(user_ids) { where(user_id: user_ids) }
+    scope :by_date, ->(start_date = Time.now.beginning_of_month, end_date = Time.now) { where(created_at: start_date...end_date) }
+    scope :by_status, ->(status) { by_date.where(status: status) }
     scope :number_by_user, ->(user_ids) { by_status(STATUSES[:in_progress]).by_user(user_ids).group(:user_id).count }
     scope :in_channel_with_status, -> (channel, status){ by_status(status).joins(:channel).where("#{Doodle::Channel.table_name}.name" => channel) }
 
@@ -70,6 +71,10 @@ module Doodle
       return nil if protocol.blank?
       protocol.progress!
       protocol
+    end
+
+    def conversation
+      self.conversation_id.split('/').last
     end
 
   end

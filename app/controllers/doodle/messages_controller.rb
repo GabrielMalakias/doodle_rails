@@ -21,7 +21,7 @@ module Doodle
     def message_params
       {
         sender: conversation_params[:sender],
-        parts: conversation_params[:parts]
+        parts: conversation_params[:parts].respond_to?(:values) ? conversation_params[:parts].values : conversation_params[:parts]
       }
     end
   end
