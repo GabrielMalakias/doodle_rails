@@ -41,7 +41,7 @@ module Doodle
       else
 
         protocol_finalizer_service(protocol).call
-        chat_join_service(protocol, protocol.user).out(protocol.channel.name)
+        chat_join_service(protocol, protocol.user).out(protocol.channel.name) if params.require(:analyst)
 
         render json: { id: protocol.id, text: "Protocol finalized with success" }
       end
