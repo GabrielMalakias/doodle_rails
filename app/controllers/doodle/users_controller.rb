@@ -20,7 +20,7 @@ module Doodle
 
     def create
       user = User.new(users_params)
-      binding.pry
+
       if user.save
         render json: user.reload.to_json
       else
