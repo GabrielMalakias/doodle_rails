@@ -8,7 +8,7 @@ module Doodle
       if channel.present?
         conversation = conversation_creator_service([params.require(:login)]).call
         protocol = protocol_creator_service(channel, conversation).call
-        render json: { protocol_id: protocol.id, prococol_status: protocol.status, channel: channel.name, conversation_id: conversation.id }, status: 201
+        render json: { protocol_id: protocol.id, protocol_status: protocol.status, channel: channel.name, conversation_id: conversation.id }, status: 201
       else
         render json: { error: 'Channel dont found, Please create channel with this name first' }
       end
