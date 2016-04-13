@@ -7,9 +7,13 @@ module Doodle
     def call
       scope = nil
       @params.each do |k, v|
-        scope = Doodle::Keyword.where(k, v)
+        scope = klass.where(k.to_s => v)
       end
       scope.all
+    end
+
+    def klass
+      Doodle::Keyword
     end
   end
 end

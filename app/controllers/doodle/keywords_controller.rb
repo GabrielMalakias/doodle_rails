@@ -17,8 +17,17 @@ module Doodle
       if params[:keyword].present?
         render json: finder_service.to_json
       else
-        render json: Keyword.all.to_json
+        render json: Keyword::Text.all.to_json
       end
+    end
+
+    def action
+     @keyword = Doodle::Keyword::Action::FinderService.new(name: params.require(:name)).call.first
+     if @keyword
+       render json: Doodle::KeywordsHelper.stub_action(@keyword)
+     else
+       render json: {error: 'Missing Action Keyword'}
+     end
     end
 
     def keyword_params
@@ -26,7 +35,7 @@ module Doodle
     end
 
     def finder_service
-      @finder_service || Doodle::Keyword::FinderService.new(keyword_params)
+      @finder_service || Doodle::Keyword::Text::FinderService.new(keyword_params)
     end
   end
 end
