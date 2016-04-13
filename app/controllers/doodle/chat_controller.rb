@@ -2,32 +2,29 @@ require_dependency "doodle/application_controller"
 
 module Doodle
   class ChatController < ApplicationController
+    before_filter :find_analyst
 
     def has_protocols?
-      protocols = Protocol.in_channel_with_status(params.require(:channel), Protocol::STATUSES[:waiting])
-      render json: { has_protocols: protocols.size }, status: 200
+      protocols = protocol_finder_service.waiting_on_user_channels(@user)
+
+      render json: { has_protocols: protocols.count }, status: 200
     end
 
     def next
-      user = User::Analyst.find_by_login(params.require(:login))
-      if user.blank?
+      if @user.blank?
         render json: { error: 'Dont found this analyst' }
       else
-        if !user.has_permission?(params.require(:channel))
-          render json: { error: "User #{user.login} dont has_permission to access protocols for this channel" }
-        else
-          protocol = protocol_finder_service.next(params.require(:channel))
+        protocol = protocol_finder_service.next_for_user(@user)
 
-          if protocol.blank? || user.blank?
-            render json: { error: 'Dont found protocols for this channel' }
+        if protocol.blank?
+          render json: { error: 'Dont found protocols for this channel' }
+        else
+          join_service = chat_join_service(protocol, @user)
+          if join_service.break_limit? && protocol.blank?
+            render json: { error: 'Analyst already have limit of protocols in progress' }, status: 422
           else
-            join_service = chat_join_service(protocol, user)
-            if join_service.break_limit? && protocol.blank?
-              render json: { error: 'Analyst already have limit of protocols in progress' }, status: 422
-            else
-              join_service.join(params.require(:channel))
-              render json: { conversation: protocol.conversation_id }, status: 200
-            end
+            join_service.join(protocol.channel_id)
+            render json: { conversation: protocol.conversation_id }, status: 200
           end
         end
       end
@@ -58,6 +55,12 @@ module Doodle
     def protocol_finder_service
       @finder_service ||= Protocol::FinderService.new
     end
+
+    private
+
+    def find_analyst
+      @user = User::Analyst.find_by_login(params.require(:login))
+    end
+
   end
 end
-

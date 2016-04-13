@@ -15,6 +15,7 @@ module Doodle
     scope :by_status, ->(status) { by_date.where(status: status) }
     scope :number_by_user, ->(user_ids) { by_status(STATUSES[:in_progress]).by_user(user_ids).group(:user_id).count }
     scope :in_channel_with_status, -> (channel, status){ by_status(status).joins(:channel).where("#{Doodle::Channel.table_name}.name" => channel) }
+    scope :in_channels_with_status, -> (channels, status){ by_status(status).joins(:channel).where(:"#{Doodle::Channel.table_name}.id" => channels) }
 
     aasm column: :status do
       state :waiting, initial: true
@@ -64,13 +65,6 @@ module Doodle
       conversation = Layer::Conversation.find(self.conversation_id)
       conversation.participants = conversation.participants - [login]
       conversation.save
-    end
-
-    def self.next(channel)
-      protocol = self.in_channel_with_status(channel, Protocol::STATUSES[:waiting]).first
-      return nil if protocol.blank?
-      protocol.progress!
-      protocol
     end
 
     def conversation
