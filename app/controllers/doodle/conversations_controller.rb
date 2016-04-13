@@ -28,7 +28,7 @@ module Doodle
     end
 
     def channel_finder_service
-      @channel_finder_service ||= Channel::FinderService.new({name: params.require(:channel)})
+      @channel_finder_service ||= Channel::FinderService.new(id: params.require(:channel_id))
     end
 
     def protocol_creator_service(channel, conversation)
@@ -40,4 +40,3 @@ module Doodle
     end
   end
 end
-

@@ -1,8 +1,8 @@
 module Doodle
   class User::Analyst < User
 
-    def enter_in_channel(name)
-      user_channel = user_channel_by_name(name)
+    def enter_in_channel(channel_id)
+      user_channel = self.user_channels.where(channel_id: channel_id).first
       user_channel.turn_online! if user_channel.may_turn_online?
     end
 

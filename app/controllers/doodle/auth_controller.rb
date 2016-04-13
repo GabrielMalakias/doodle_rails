@@ -6,7 +6,7 @@ module Doodle
       @user = User.where(password: auth_params[:password], login: auth_params[:login], type: auth_params[:type]).first
 
       if @user.present?
-        render json: { login: @user.login, session_token: token_creator_service.token }
+        render json: { id: @user.id, login: @user.login, session_token: token_creator_service.token }
       else
         render json: { error: "When authenticate user" }
       end
