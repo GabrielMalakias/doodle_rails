@@ -3,7 +3,8 @@ Doodle::Engine.routes.draw do
   resources :users, only: [:index, :create]
   resources :keywords, only: [:index, :create]
 
-  get 'keywords/action', to: 'keywords#action'
+  get 'keywords/action',      to: 'keywords#action'
+  get 'keywords/all_actions', to: 'keywords#all_actions'
 
   post 'authenticate', to: 'auth#authenticate'
 

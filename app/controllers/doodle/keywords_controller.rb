@@ -21,6 +21,10 @@ module Doodle
       end
     end
 
+    def all_actions
+      render json: Doodle::Keyword::Action.all
+    end
+
     def action
      @keyword = Doodle::Keyword::Action::FinderService.new(name: params.require(:name)).call.first
      if @keyword
