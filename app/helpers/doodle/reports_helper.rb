@@ -13,7 +13,7 @@ module Doodle
 
     def waiting_users
       result = []
-      Doodle::User.inative.pluck(:login).each do |v|
+      Doodle::User::Analyst.inative.pluck(:login).each do |v|
         result << {login: v}
       end
       result
