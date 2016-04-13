@@ -26,7 +26,7 @@ module Doodle
      if @keyword
        render json: Doodle::KeywordsHelper.stub_action(@keyword)
      else
-       render json: {error: 'Missing Action Keyword'}
+       render json: {error: 'Missing Action Keyword'}, status: 404
      end
     end
 

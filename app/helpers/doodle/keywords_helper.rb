@@ -5,7 +5,7 @@ module Doodle
     def stub_action(keyword)
       {
         name: keyword.name,
-        products: { imap: true, pop: true, smtp: false },
+        nodes: { imap: true, pop: true, smtp: false },
         options:  { postal: '89% Utilizado', domain: 'Locaweb MX', anti_spam: 'ativo' }
       }
     end
