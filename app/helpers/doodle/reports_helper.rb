@@ -26,5 +26,12 @@ module Doodle
       end
       result
     end
+
+    def service_metrics
+      {
+        waiting_time: "#{Doodle::Protocol.average_waiting_time.round / 60.to_f} min",
+        service_time: "#{Doodle::Protocol.average_service_time.round / 60.to_f} min"
+      }
+    end
   end
 end
