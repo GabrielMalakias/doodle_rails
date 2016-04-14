@@ -5,6 +5,7 @@ module Doodle
     end
 
     def call
+      @protocol.progress! if @protocol.waiting?
       @protocol.finalize!
     end
   end

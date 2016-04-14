@@ -18,7 +18,6 @@ module Doodle
 
     end
 
-
     def create
       user = User.new(users_params)
       if user.save
@@ -29,7 +28,7 @@ module Doodle
     end
 
     def users_params
-      params.require(:user).permit(:login, :pass, :type)
+      params.require(:user).permit(:login, :password, :type)
     end
   end
 end

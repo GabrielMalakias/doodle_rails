@@ -4,7 +4,7 @@ class CreateDoodleUserChannels < ActiveRecord::Migration
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :channel, index: true, foreign_key: true
       t.string :status
-      t.integer :concurrent_protocols
+      t.boolean :enable
 
       t.timestamps null: false
     end
